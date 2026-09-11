@@ -45,6 +45,42 @@ function addBackdrop(scene, color) {
   return r;
 }
 
+
+// ---------- Фоновая загрузка стикеров (очередь батчами) ----------
+window.STICKER_LOAD = { done: 0, total: 0, active: false };
+
+function startStickerQueue(scene, batchSize) {
+  const b = batchSize || 14;
+  const missing = STICKERS.filter(s => !scene.textures.exists(s.key));
+  window.STICKER_LOAD = { done: STICKERS.length - missing.length, total: STICKERS.length, active: true };
+  const queue = missing.slice();
+
+  const step = () => {
+    if (!queue.length) {
+      window.STICKER_LOAD.active = false;
+      if (typeof scene.onStickersProgress === 'function') scene.onStickersProgress(window.STICKER_LOAD);
+      if (typeof scene.onStickersDone === 'function') scene.onStickersDone();
+      return;
+    }
+    const slice = queue.splice(0, b);
+    slice.forEach(s => scene.load.image(s.key, 'assets/' + s.key));
+    scene.load.once('complete', () => {
+      window.STICKER_LOAD.done = STICKERS.length - queue.length;
+      if (typeof scene.onStickersProgress === 'function') scene.onStickersProgress(window.STICKER_LOAD);
+      // следующий батч — в следующем кадре, чтобы не блокировать рендер
+      scene.time.delayedCall(0, step);
+    });
+    scene.load.start();
+  };
+  step();
+}
+
+// Стикеры, которые уже загружены (для случайного выбора лица во время догрузки)
+function loadedStickers(scene) {
+  const list = STICKERS.filter(s => scene.textures.exists(s.key));
+  return list.length ? list : STICKERS;
+}
+
 // Прямоугольник на всю видимую область (для вспышек/оверлеев)
 function addCoverRect(scene, color, alpha, depth) {
   const cam = scene.cameras.main;
@@ -124,6 +160,16 @@ MenuScene.prototype.create = function () {
 
   this.add.text(W / 2, H - 50, '© VASA GAMES 2026', { fontFamily: 'Arial', fontSize: '13px', color: '#333355' }).setOrigin(0.5);
 
+  // фоновая догрузка стикеров + индикатор
+  this.loadLabel = this.add.text(W / 2, H - 26, '', { fontFamily: 'Arial', fontSize: '12px', color: '#445577' }).setOrigin(0.5);
+  this.onStickersProgress = (st) => {
+    if (!this.loadLabel || !this.loadLabel.active) return;
+    if (st.done >= st.total) { this.loadLabel.setText('стикеры загружены ✓'); return; }
+    this.loadLabel.setText('стикеры: ' + st.done + ' / ' + st.total);
+  };
+  this.onStickersDone = () => { if (this.loadLabel && this.loadLabel.active) this.loadLabel.setText('стикеры загружены ✓'); };
+  startStickerQueue(this, 14);
+
   this.select(0, false);
   // scene-wide tap по карточкам (надёжно при zoom=dpr)
   // тач-зоны во всю ширину экрана — промахнуться невозможно
@@ -179,7 +225,7 @@ BootScene.prototype.preload = function () {
     if (this.bar && this.bar.active) this.bar.width = Math.max(2, 180 * v);
   });
   fitScene(this);
-  STICKERS.forEach(s => this.load.image(s.key, 'assets/' + s.key));
+  // Стикеры НЕ грузим здесь — они догружаются фоном в меню (игра стартует мгновенно)
 };
 
 BootScene.prototype.create = function () {
@@ -286,7 +332,8 @@ GameScene.prototype.squish = function (s, dir) {
 
 GameScene.prototype._newFace = function () {
   const W = DESIGN_W, H = DESIGN_H;
-  const pick = STICKERS[Math.floor(Math.random() * STICKERS.length)];
+  const pool = loadedStickers(this);          // пока стикеры догружаются — берём из готовых
+  const pick = pool[Math.floor(Math.random() * pool.length)];
   this.currentSticker = pick;
   const sc = this._lastScale || 1;
   this.faceSprite = this.add.image(W / 2, H / 2 + 40, pick.key);
