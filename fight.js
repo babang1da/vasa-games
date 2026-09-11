@@ -1,16 +1,4 @@
 
-// ---------- COVER-скейл: общий хелпер для всех сцен ----------
-function applyCoverScale(scene) {
-  const dpr = window.__dpr || 1;
-  const vw = window.game.scale.canvasBounds.width || window.innerWidth;
-  const vh = window.game.scale.canvasBounds.height || window.innerHeight;
-  // canvas физически = viewport*dpr (RESIZE mode). Дизайн 390x844*dpr вписываем с COVER:
-  const zoom = Math.max(vw / (DESIGN_W * dpr), vh / (DESIGN_H * dpr));
-  scene.cameras.main.setZoom(zoom);
-  scene.cameras.main.centerOn(DESIGN_W / 2, DESIGN_H / 2);
-}
-
-
 // ---------- Выбор бойца ----------
 function SelectScene() { Phaser.Scene.call(this, { key: 'SelectScene' }); }
 SelectScene.prototype = Object.create(Phaser.Scene.prototype);
@@ -20,11 +8,11 @@ SelectScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  applyCoverScale(this);
+  fitScene(this);
+  addBackdrop(this, 0x0a0a1a);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
-  this.add.rectangle(W/2, H/2, W+20, H+20, 0x0a0a1a);
   this.add.text(W/2, 60, 'ВЫБЕРИ БОЙЦА', { fontFamily: 'Arial', fontSize: '30px', color: '#ffd93d', fontStyle: 'bold' }).setOrigin(0.5);
 
   // превью выбранного
@@ -132,18 +120,22 @@ FightScene.prototype.init = function (data) {
   // статы: сила и скорость зависят от бойца
   this.pStats = { power: 5 + (this.pIdx * 7) % 5, speed: 5 + (this.pIdx * 3) % 5 };
   this.eStats = { power: 5 + (this.eIdx * 7) % 5, speed: 5 + (this.eIdx * 3) % 5 };
+  this.ult = 0;          // до makeUltBtn, иначе кнопка покажет NaN%
+  this.combo = 0;
+  this.isBusy = false;
+  this.gameOver = false;
 };
 
 FightScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  applyCoverScale(this);
+  fitScene(this);
+  addBackdrop(this, 0x1a1030);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
   // Арена
-  this.add.rectangle(W/2, H/2, W+20, H+20, 0x1a1030);
   this.add.rectangle(W/2, H - 205, W, 130, 0x241543);           // ринг-пол
   this.add.rectangle(W/2, 60, W+20, 70, 0x120a20);              // небо-панель
 

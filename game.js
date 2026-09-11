@@ -1,27 +1,50 @@
+// ---------- Единая система адаптации экрана ----------
+// Дизайн-координаты 390x844. Канвас = CSS-размер * DPR (резко на Retina).
+// Портрет → COVER (заполняет весь экран), ландшафт → FIT (чтобы не резать меню).
+const DPR = Math.min(window.devicePixelRatio || 1, 3);
+const DESIGN_W = 390, DESIGN_H = 844;
 
-// ---------- COVER-скейл: общий хелпер для всех сцен ----------
-function applyCoverScale(scene) {
-  const cw = window.game.scale.canvas.clientWidth || window.innerWidth;
-  const ch = window.game.scale.canvas.clientHeight || window.innerHeight;
-  const aspect = cw / ch;
-  // Портрет/квадрат → COVER (заполнить весь экран). Ландшафт (aspect>0.9) → FIT чтобы не резать контент.
-  const zoom = aspect > 0.9
-    ? Math.min(cw / DESIGN_W, ch / DESIGN_H)                  // FIT
-    : Math.max(cw / DESIGN_W, ch / DESIGN_H);                 // COVER
-  scene.cameras.main.setZoom(zoom);
-  scene.cameras.main.centerOn(DESIGN_W / 2, DESIGN_H / 2);
-  scene.cameras.main.setBackgroundColor(scene.scene.key === 'BootScene' ? '#ffffff' : '#0a0a1a');
+function fitScene(scene) {
+  const cam = scene.cameras.main;
+  const canvas = window.game.scale.canvas;
+  const cw = canvas.width, ch = canvas.height;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const zoom = (vw / vh) > 0.9
+    ? Math.min(cw / DESIGN_W, ch / DESIGN_H)   // FIT  (ландшафт/десктоп)
+    : Math.max(cw / DESIGN_W, ch / DESIGN_H);  // COVER (портрет/телефон)
+  cam.setZoom(zoom);
+  cam.centerOn(DESIGN_W / 2, DESIGN_H / 2);
+  cam.setBackgroundColor(scene.isBoot ? '#ffffff' : '#0a0a1a');
+  if (scene.backdrop && scene.backdrop.active) {
+    scene.backdrop.setSize(cw / zoom + 12, ch / zoom + 12);
+    scene.backdrop.setPosition(DESIGN_W / 2, DESIGN_H / 2);
+  }
 }
+
+// Фон, который всегда закрывает видимую область при любом зуме
+function addBackdrop(scene, color) {
+  const r = scene.add.rectangle(DESIGN_W / 2, DESIGN_H / 2, DESIGN_W + 12, DESIGN_H + 12, color).setDepth(-100);
+  scene.backdrop = r;
+  return r;
+}
+
+// Прямоугольник на всю видимую область (для вспышек/оверлеев)
+function addCoverRect(scene, color, alpha, depth) {
+  const cam = scene.cameras.main;
+  const cw = window.game.scale.canvas.width / cam.zoom + 12;
+  const ch = window.game.scale.canvas.height / cam.zoom + 12;
+  return scene.add.rectangle(DESIGN_W / 2, DESIGN_H / 2, cw, ch, color, alpha === undefined ? 1 : alpha).setDepth(depth === undefined ? 9999 : depth);
+}
+
 // VASA Games — «Тык в щёку» (Phaser 4.2, Approach D ретина)
 /* global Phaser, STICKERS */
-window.__dpr = Math.min(window.devicePixelRatio || 1, 3);
-const DESIGN_W = 390, DESIGN_H = 844;
+window.__dpr = DPR;
 
 const config = {
   type: Phaser.WEBGL,
-  width: DESIGN_W * window.__dpr,
-  height: DESIGN_H * window.__dpr,
-  scale: { mode: Phaser.Scale.RESIZE, width: window.innerWidth, height: window.innerHeight, autoRound: true },
+  width: Math.round(window.innerWidth * DPR),
+  height: Math.round(window.innerHeight * DPR),
+  scale: { mode: Phaser.Scale.NONE },
   render: { antialias: true },
   backgroundColor: '#0a0a1a',
   scene: [BootScene, MenuScene, GameScene, SelectScene, FightScene]
@@ -29,6 +52,14 @@ const config = {
 
 const game = new Phaser.Game(config);
 window.game = game;
+
+// Ресайз окна/поворот экрана — пересчёт без перезагрузки
+window.addEventListener('resize', () => {
+  if (!game || !game.scale) return;
+  game.scale.resize(Math.round(window.innerWidth * DPR), Math.round(window.innerHeight * DPR));
+  game.scene.scenes.forEach(s => { if (s.scene.isActive()) fitScene(s); });
+});
+window.addEventListener('orientationchange', () => window.dispatchEvent(new Event('resize')));
 
 // ---------- Меню выбора игр (стиль Dendy/Sega) ----------
 function MenuScene() { Phaser.Scene.call(this, { key: 'MenuScene' }); }
@@ -44,11 +75,12 @@ MenuScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  applyCoverScale(this);
+  fitScene(this);
+  addBackdrop(this, 0x0a0a1a);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
-  this.add.rectangle(W / 2, H / 2, W + 20, H + 20, 0x0a0a1a);
+
 
   this.add.text(W / 2, 70, 'VASA GAMES', { fontFamily: 'Arial', fontSize: '38px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
   this.add.text(W / 2, 108, 'ВЫБЕРИ ИГРУ', { fontFamily: 'Arial', fontSize: '18px', color: '#00e5ff' }).setOrigin(0.5);
@@ -108,52 +140,47 @@ BootScene.prototype = Object.create(Phaser.Scene.prototype);
 BootScene.prototype.constructor = BootScene;
 
 BootScene.prototype.preload = function () {
+  this.isBoot = true;
   const g = this.add.graphics();
   g.fillStyle(0x00e5ff, 1); g.fillRect(0, 0, 10, 10); g.generateTexture('px', 10, 10); g.destroy();
   this.load.image('logo', 'assets/logo.webp');
   FIGHTERS.forEach(f => this.load.image(f.key, 'assets/fighters/' + f.file));
 
-  // Экран загрузки: белый фон, лого сверху-в-центре, тонкий лоадер внизу
-  const dpr = window.__dpr || 1;
-  const w = 390 * dpr, h = 844 * dpr;
-  this.cameras.main.setBackgroundColor('#ffffff');
-
-  // лого (сразу, маленькое)
-  const logo = this.add.image(w / 2, h / 2 - 40 * dpr, 'logo');
-  logo.setScale(0.42 * dpr);
-
-  // тонкий лоадер внизу
-  this.barBg = this.add.rectangle(w / 2, h - 70 * dpr, 180 * dpr, 4 * dpr, 0xe0e0e8).setOrigin(0.5);
-  this.bar = this.add.rectangle(w / 2 - 90 * dpr, h - 70 * dpr, 0, 4 * dpr, 0x2244cc).setOrigin(0, 0.5);
+  // Экран загрузки (дизайн-координаты): лого по центру, тонкий лоадер внизу
+  addBackdrop(this, 0xffffff);
+  this.loaderLogo = this.add.image(DESIGN_W / 2, DESIGN_H / 2 - 30, 'logo').setScale(0.42);
+  this.barBg = this.add.rectangle(DESIGN_W / 2, DESIGN_H - 60, 180, 4, 0xdcdfe8).setOrigin(0.5);
+  this.bar = this.add.rectangle(DESIGN_W / 2 - 90, DESIGN_H - 60, 0, 4, 0x2244cc).setOrigin(0, 0.5);
 
   this.load.on('progress', v => {
-    this.bar.width = Math.max(2, 180 * dpr * v);
+    if (this.bar && this.bar.active) this.bar.width = Math.max(2, 180 * v);
   });
+  fitScene(this);
   STICKERS.forEach(s => this.load.image(s.key, 'assets/' + s.key));
 };
 
 BootScene.prototype.create = function () {
-  // Заставка EA-style: лого вырастает со вспышкой + бас-удар, «PRESS ANY» → в меню
-  const dpr = window.__dpr || 1;
-  const w = 390 * dpr, h = 844 * dpr;
-  this.cameras.main.setBackgroundColor('#ffffff');
-  const logo = this.add.image(w / 2, h / 2, 'logo');
-  logo.setScale(0.25 * dpr);
+  this.isBoot = true;
+  // убираем элементы экрана загрузки
+  [this.loaderLogo, this.bar, this.barBg].forEach(o => { if (o && o.active) o.destroy(); });
+  fitScene(this);
+
+  // Заставка EA-style: вспышка → лого вырастает → «нажми чтобы продолжить» → меню
+  const logo = this.add.image(DESIGN_W / 2, DESIGN_H / 2, 'logo');
+  logo.setScale(0.25);
   logo.setAlpha(0);
 
-  const flash = this.add.rectangle(w/2, h/2, w*2, h*2, 0x000000, 1).setDepth(50);
+  const flash = addCoverRect(this, 0x000000, 1, 50);
   this.tweens.add({ targets: flash, alpha: 0, duration: 500, onComplete: () => flash.destroy() });
 
   this.tweens.add({
     targets: logo,
-    alpha: 1, scale: 0.55 * dpr,
+    alpha: 1, scale: 0.58,
     duration: 700, ease: 'Back.easeOut',
     onComplete: () => {
-      // покачивание живого лого
-      this.tweens.add({ targets: logo, scale: 0.57 * dpr, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-      const tap = this.add.text(w/2, h - 90*dpr, '— нажми чтобы продолжить —', { fontFamily: 'Arial', fontSize: (14*dpr) + 'px', color: '#4455aa' }).setOrigin(0.5);
-      this.tweens.add({ targets: tap, alpha: 0.25, duration: 700, yoyo: true, repeat: -1 });
-      // автопереход через 4с ИЛИ тап
+      this.tweens.add({ targets: logo, scale: 0.60, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+      const tap = this.add.text(DESIGN_W / 2, DESIGN_H - 70, '— нажми чтобы продолжить —', { fontFamily: 'Arial', fontSize: '15px', color: '#4455aa' }).setOrigin(0.5);
+      this.tweens.add({ targets: tap, alpha: 0.3, duration: 700, yoyo: true, repeat: -1 });
       this.autoTimer = this.time.delayedCall(4000, () => this.toMenu());
       this.input.once('pointerdown', () => this.toMenu());
     }
@@ -185,15 +212,15 @@ GameScene.prototype.create = function () {
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H; // design-координаты
 
-  // camera zoom (Approach D)
-  applyCoverScale(this);
+  fitScene(this);
+  addBackdrop(this, 0x0a0a1a);
 
   // text monkey-patch
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
   // фон
-  this.add.rectangle(W / 2, H / 2, W + 20, H + 20, 0x0a0a1a);
+
 
   // title
   this.add.text(W / 2, 60, 'ТЫКАЙ В ЩИКУ', { fontFamily: 'Arial', fontSize: '34px', color: '#00e5ff', fontStyle: 'bold' }).setOrigin(0.5);
