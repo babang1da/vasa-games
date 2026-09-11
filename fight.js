@@ -8,8 +8,8 @@ SelectScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  fitScene(this);
   addBackdrop(this, 0x0a0a1a);
+  fitScene(this);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
@@ -47,7 +47,7 @@ SelectScene.prototype.create = function () {
   // scene-wide tap: сетка + кнопка В БОЙ + назад
   this.cellZones = FIGHTERS.map((f, i) => {
     const col = i % 4, row = Math.floor(i / 4);
-    return { x: W/2 + (col - 1.5) * 78, y: 300 + row * 95, w: 78, h: 95, i: i };
+    return { x: W/2 + (col - 1.5) * 78, y: 300 + row * 95, w: 80, h: 100, i: i };
   });
   this.fightZone = { x: W/2, y: H - 120, w: 180, h: 60 };
   this.backZone  = { x: W/2, y: H - 60, w: 120, h: 40 };
@@ -130,14 +130,19 @@ FightScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  fitScene(this);
   addBackdrop(this, 0x1a1030);
+  fitScene(this);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
   // Арена
-  this.add.rectangle(W/2, H - 205, W, 130, 0x241543);           // ринг-пол
-  this.add.rectangle(W/2, 60, W+20, 70, 0x120a20);              // небо-панель
+  this.arenaFloor = this.add.rectangle(W/2, H - 205, W, 130, 0x241543);   // ринг-пол (тянется по ширине)
+  this.skyPanel = this.add.rectangle(W/2, 60, W, 70, 0x120a20);           // панель HP (тянется по ширине)
+  this.onFit = (zoom) => {
+    const w = window.game.scale.canvas.width / zoom + 20;
+    this.arenaFloor.width = w;
+    this.skyPanel.width = w;
+  };
 
   // HP-бары
   this.pHp = 100; this.eHp = 100;
@@ -199,7 +204,7 @@ FightScene.prototype.makeAttackBtn = function (x, y, label, dmg, cb, color) {
   }).setOrigin(0.5).setDepth(10);
   b.hitCb = cb;
   this.actionButtons = this.attackButtons || [];
-  b.getBounds && (b._hb = { x: x, y: y, w: b.width + 20, h: b.height + 20 });
+  b._hb = { x: x, y: y, w: 130, h: 130 };   // крупная зона для пальца
   this.attackButtons = this.attackButtons || [];
   this.attackButtons.push(b);
   return b;
@@ -234,7 +239,7 @@ FightScene.prototype.makeUltBtn = function (x, y) {
     padding: { x: 14, y: 10 }
   }).setOrigin(0.5).setDepth(10);
   this.attackButtons.push(this.ultBtn);
-  this.ultBtn._hb = { x: x, y: y, w: this.ultBtn.width + 20, h: this.ultBtn.height + 20 };
+  this.ultBtn._hb = { x: x, y: y, w: 150, h: 130 };
   this.updateUlt();
 };
 

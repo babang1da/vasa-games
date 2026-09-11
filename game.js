@@ -4,14 +4,28 @@
 const DPR = Math.min(window.devicePixelRatio || 1, 3);
 const DESIGN_W = 390, DESIGN_H = 844;
 
+function viewportSize() {
+  const vv = window.visualViewport;
+  const w = Math.round(vv ? vv.width : window.innerWidth);
+  const h = Math.round(vv ? vv.height : window.innerHeight);
+  return { w: Math.max(200, w), h: Math.max(300, h) };
+}
+
+// Канвас ровно под видимую область (visual viewport — учитывает адресную строку мобильных браузеров)
+function resizeCanvas() {
+  if (!game || !game.scale) return;
+  const { w, h } = viewportSize();
+  // backing = CSS * DPR (резкость Retina), CSS-размер выставляет Phaser в режиме FIT
+  game.scale.resize(Math.round(w * DPR), Math.round(h * DPR));
+}
+
 function fitScene(scene) {
   const cam = scene.cameras.main;
   const canvas = window.game.scale.canvas;
   const cw = canvas.width, ch = canvas.height;
-  const vw = window.innerWidth, vh = window.innerHeight;
-  const zoom = (vw / vh) > 0.9
-    ? Math.min(cw / DESIGN_W, ch / DESIGN_H)   // FIT  (ландшафт/десктоп)
-    : Math.max(cw / DESIGN_W, ch / DESIGN_H);  // COVER (портрет/телефон)
+  // РЕЗИНА: FIT — при любом соотношении сторон весь интерфейс целиком в экране (кнопки не уезжают),
+  // свободные поля закрывает backdrop, растянутый на видимую область.
+  const zoom = Math.min(cw / DESIGN_W, ch / DESIGN_H);
   cam.setZoom(zoom);
   cam.centerOn(DESIGN_W / 2, DESIGN_H / 2);
   cam.setBackgroundColor(scene.isBoot ? '#ffffff' : '#0a0a1a');
@@ -19,6 +33,9 @@ function fitScene(scene) {
     scene.backdrop.setSize(cw / zoom + 12, ch / zoom + 12);
     scene.backdrop.setPosition(DESIGN_W / 2, DESIGN_H / 2);
   }
+  scene.visibleH = ch / zoom;   // сколько дизайн-высоты реально видно
+  scene.visibleW = cw / zoom;
+  if (typeof scene.onFit === 'function') scene.onFit(zoom);
 }
 
 // Фон, который всегда закрывает видимую область при любом зуме
@@ -42,9 +59,9 @@ window.__dpr = DPR;
 
 const config = {
   type: Phaser.WEBGL,
-  width: Math.round(window.innerWidth * DPR),
-  height: Math.round(window.innerHeight * DPR),
-  scale: { mode: Phaser.Scale.NONE },
+  width: Math.round(viewportSize().w * DPR),
+  height: Math.round(viewportSize().h * DPR),
+  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   render: { antialias: true },
   backgroundColor: '#0a0a1a',
   scene: [BootScene, MenuScene, GameScene, SelectScene, FightScene]
@@ -53,13 +70,18 @@ const config = {
 const game = new Phaser.Game(config);
 window.game = game;
 
-// Ресайз окна/поворот экрана — пересчёт без перезагрузки
-window.addEventListener('resize', () => {
-  if (!game || !game.scale) return;
-  game.scale.resize(Math.round(window.innerWidth * DPR), Math.round(window.innerHeight * DPR));
+// Ресайз окна / адресная строка / поворот — пересчёт без перезагрузки
+function refitAll() {
+  resizeCanvas();
   game.scene.scenes.forEach(s => { if (s.scene.isActive()) fitScene(s); });
-});
-window.addEventListener('orientationchange', () => window.dispatchEvent(new Event('resize')));
+}
+window.addEventListener('resize', refitAll);
+window.addEventListener('orientationchange', () => setTimeout(refitAll, 150));
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', refitAll);
+  window.visualViewport.addEventListener('scroll', refitAll);
+}
+setTimeout(refitAll, 300);   // после появления/скрытия адресной строки
 
 // ---------- Меню выбора игр (стиль Dendy/Sega) ----------
 function MenuScene() { Phaser.Scene.call(this, { key: 'MenuScene' }); }
@@ -75,8 +97,8 @@ MenuScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  fitScene(this);
   addBackdrop(this, 0x0a0a1a);
+  fitScene(this);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
@@ -104,7 +126,8 @@ MenuScene.prototype.create = function () {
 
   this.select(0, false);
   // scene-wide tap по карточкам (надёжно при zoom=dpr)
-  this.cardZones = GAMES.map((g, i) => ({ x: W/2, y: 210 + i * gapY, w: cardW, h: cardH, i: i }));
+  // тач-зоны во всю ширину экрана — промахнуться невозможно
+  this.cardZones = GAMES.map((g, i) => ({ x: W/2, y: 210 + i * gapY, w: 1000, h: cardH + 20, i: i }));
   this.input.on('pointerdown', (pointer) => {
     for (const z of this.cardZones) {
       if (Math.abs(pointer.worldX - z.x) < z.w/2 && Math.abs(pointer.worldY - z.y) < z.h/2) {
@@ -212,8 +235,8 @@ GameScene.prototype.create = function () {
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H; // design-координаты
 
-  fitScene(this);
   addBackdrop(this, 0x0a0a1a);
+  fitScene(this);
 
   // text monkey-patch
   const origAddText = this.add.text.bind(this.add);
