@@ -36,7 +36,7 @@ MenuScene.prototype = Object.create(Phaser.Scene.prototype);
 MenuScene.prototype.constructor = MenuScene;
 
 const GAMES = [
-  { id: 'poke', title: 'ТЫКАЙ В ЩЁКУ', desc: 'Тапай по щеке!', playable: true },
+  { id: 'poke', title: 'ТЫКАЙ В ЩИКУ', desc: 'Тапай по щеке!', playable: true },
   { id: 'fight', title: 'КЗБ АРЕНА', desc: '1v1 бой на головах!', playable: true }
 ];
 
@@ -196,7 +196,7 @@ GameScene.prototype.create = function () {
   this.add.rectangle(W / 2, H / 2, W + 20, H + 20, 0x0a0a1a);
 
   // title
-  this.add.text(W / 2, 60, 'ТЫКАЙ В ЩЁКУ', { fontFamily: 'Arial', fontSize: '34px', color: '#00e5ff', fontStyle: 'bold' }).setOrigin(0.5);
+  this.add.text(W / 2, 60, 'ТЫКАЙ В ЩИКУ', { fontFamily: 'Arial', fontSize: '34px', color: '#00e5ff', fontStyle: 'bold' }).setOrigin(0.5);
 
   // score
   this.scoreText = this.add.text(W / 2, 110, '0', { fontFamily: 'Arial', fontSize: '64px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
