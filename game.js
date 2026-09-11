@@ -100,7 +100,7 @@ const config = {
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   render: { antialias: true },
   backgroundColor: '#0a0a1a',
-  scene: [BootScene, MenuScene, GameScene, SelectScene, FightScene]
+  scene: [BootScene, MenuScene, GameScene, SelectScene, FightScene, RunnerScene]
 };
 
 const game = new Phaser.Game(config);
@@ -126,7 +126,9 @@ MenuScene.prototype.constructor = MenuScene;
 
 const GAMES = [
   { id: 'poke', title: 'ТЫКАЙ В ЩИКУ', desc: 'Тапай по щеке!', playable: true },
-  { id: 'fight', title: 'КЗБ АРЕНА', desc: '1v1 бой на головах!', playable: true }
+  { id: 'fight', title: 'КЗБ АРЕНА', desc: '1v1 бой на головах!', playable: true },
+  { id: 'sanek', title: 'САНЁК', desc: 'Красная поляна', playable: true, runner: 'sanek' },
+  { id: 'boban', title: 'БОБАН', desc: 'Самокат, Москва', playable: true, runner: 'boban' }
 ];
 
 MenuScene.prototype.create = function () {
@@ -146,14 +148,15 @@ MenuScene.prototype.create = function () {
   // Карусель карточек
   this.selIndex = 0;
   this.cards = [];
-  const cardW = 250, cardH = 150, gapY = 170;
+  const cardW = 172, cardH = 132, colGap = 184, rowGap = 156;
+  const cellPos = (i) => ({ x: W / 2 + ((i % 2) - 0.5) * colGap, y: 232 + Math.floor(i / 2) * rowGap });
   GAMES.forEach((g, i) => {
-    const y = 210 + i * gapY;
-    const card = this.add.container(W / 2, y);
+    const p = cellPos(i);
+    const card = this.add.container(p.x, p.y);
     const bg = this.add.rectangle(0, 0, cardW, cardH, 0x1a1a3a).setStrokeStyle(3, 0x00e5ff);
-    const t1 = this.add.text(0, -18, g.title, { fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
-    const t2 = this.add.text(0, 22, g.desc, { fontFamily: 'Arial', fontSize: '16px', color: '#8888aa' }).setOrigin(0.5);
-    const t3 = this.add.text(0, 55, g.playable ? '▶ ИГРАТЬ' : '🔒 СКОРО', { fontFamily: 'Arial', fontSize: '15px', color: g.playable ? '#00e5ff' : '#555577' }).setOrigin(0.5);
+    const t1 = this.add.text(0, -30, g.title, { fontFamily: 'Arial', fontSize: '19px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
+    const t2 = this.add.text(0, 2, g.desc, { fontFamily: 'Arial', fontSize: '13px', color: '#8888aa' }).setOrigin(0.5);
+    const t3 = this.add.text(0, 38, g.playable ? '▶ ИГРАТЬ' : '🔒 СКОРО', { fontFamily: 'Arial', fontSize: '13px', color: g.playable ? '#00e5ff' : '#555577' }).setOrigin(0.5);
     card.add([bg, t1, t2, t3]);
     this.cards.push(card);
   });
@@ -173,11 +176,11 @@ MenuScene.prototype.create = function () {
   this.select(0, false);
   // scene-wide tap по карточкам (надёжно при zoom=dpr)
   // тач-зоны во всю ширину экрана — промахнуться невозможно
-  this.cardZones = GAMES.map((g, i) => ({ x: W/2, y: 210 + i * gapY, w: 1000, h: cardH + 20, i: i }));
+  this.cardZones = GAMES.map((g, i) => { const p = cellPos(i); return { x: p.x, y: p.y, w: cardW + 12, h: cardH + 12, i: i }; });
   this.input.on('pointerdown', (pointer) => {
     for (const z of this.cardZones) {
       if (Math.abs(pointer.worldX - z.x) < z.w/2 && Math.abs(pointer.worldY - z.y) < z.h/2) {
-        this.select(z === this.cardZones[0] ? 0 : this.cardZones.indexOf(z), true);
+        this.select(z.i, true);
         return;
       }
     }
@@ -199,6 +202,7 @@ MenuScene.prototype.select = function (i, go) {
     this.cameras.main.once('camerafadeoutcomplete', () => {
       if (g.id === 'poke') this.scene.start('GameScene');
       if (g.id === 'fight') this.scene.start('SelectScene');
+      if (g.runner) this.scene.start('RunnerScene', { level: g.runner });
     });
   }
 };
@@ -213,6 +217,9 @@ BootScene.prototype.preload = function () {
   const g = this.add.graphics();
   g.fillStyle(0x00e5ff, 1); g.fillRect(0, 0, 10, 10); g.generateTexture('px', 10, 10); g.destroy();
   this.load.image('logo', 'assets/logo.webp');
+  this.load.image('cat_prize', 'assets/prize/cat_256.webp');
+  this.load.image('buhovo_boss', 'assets/heads/buhovo_boss_cut.webp');
+  this.load.image('gref_boss', 'assets/heads/gref_boss_cut.webp');
   FIGHTERS.forEach(f => this.load.image(f.key, 'assets/fighters/' + f.file));
 
   // Экран загрузки (дизайн-координаты): лого по центру, тонкий лоадер внизу
