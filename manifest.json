@@ -1,0 +1,1424 @@
+[
+ {
+  "file": "00_🪴.webp",
+  "emoji": "🪴",
+  "index": 0,
+  "is_video": false
+ },
+ {
+  "file": "01_😳.webp",
+  "emoji": "😳",
+  "index": 1,
+  "is_video": false
+ },
+ {
+  "file": "02_🖕.webp",
+  "emoji": "🖕",
+  "index": 2,
+  "is_video": false
+ },
+ {
+  "file": "03_😃.webp",
+  "emoji": "😃",
+  "index": 3,
+  "is_video": false
+ },
+ {
+  "file": "04_🛌.webp",
+  "emoji": "🛌",
+  "index": 4,
+  "is_video": false
+ },
+ {
+  "file": "05_🤢.webp",
+  "emoji": "🤢",
+  "index": 5,
+  "is_video": false
+ },
+ {
+  "file": "06_🥴.webp",
+  "emoji": "🥴",
+  "index": 6,
+  "is_video": false
+ },
+ {
+  "file": "07_😬.webp",
+  "emoji": "😬",
+  "index": 7,
+  "is_video": false
+ },
+ {
+  "file": "08_😛.webp",
+  "emoji": "😛",
+  "index": 8,
+  "is_video": false
+ },
+ {
+  "file": "09_😢.webp",
+  "emoji": "😢",
+  "index": 9,
+  "is_video": false
+ },
+ {
+  "file": "10_😇.webp",
+  "emoji": "😇",
+  "index": 10,
+  "is_video": false
+ },
+ {
+  "file": "11_💵.webp",
+  "emoji": "💵",
+  "index": 11,
+  "is_video": false
+ },
+ {
+  "file": "12_📸.webp",
+  "emoji": "📸",
+  "index": 12,
+  "is_video": false
+ },
+ {
+  "file": "13_🙄.webp",
+  "emoji": "🙄",
+  "index": 13,
+  "is_video": false
+ },
+ {
+  "file": "14_🍺.webp",
+  "emoji": "🍺",
+  "index": 14,
+  "is_video": false
+ },
+ {
+  "file": "15_😺.webp",
+  "emoji": "😺",
+  "index": 15,
+  "is_video": false
+ },
+ {
+  "file": "16_🏊♂️.webp",
+  "emoji": "🏊‍♂️",
+  "index": 16,
+  "is_video": false
+ },
+ {
+  "file": "17_🇩🇪.webp",
+  "emoji": "🇩🇪",
+  "index": 17,
+  "is_video": false
+ },
+ {
+  "file": "18_😐.webp",
+  "emoji": "😐",
+  "index": 18,
+  "is_video": false
+ },
+ {
+  "file": "19_😵.webp",
+  "emoji": "😵",
+  "index": 19,
+  "is_video": false
+ },
+ {
+  "file": "20_☝️.webp",
+  "emoji": "☝️",
+  "index": 20,
+  "is_video": false
+ },
+ {
+  "file": "21_🤓.webp",
+  "emoji": "🤓",
+  "index": 21,
+  "is_video": false
+ },
+ {
+  "file": "22_😵💫.webp",
+  "emoji": "😵‍💫",
+  "index": 22,
+  "is_video": false
+ },
+ {
+  "file": "23_🐶.webp",
+  "emoji": "🐶",
+  "index": 23,
+  "is_video": false
+ },
+ {
+  "file": "24_🤦♂️.webp",
+  "emoji": "🤦‍♂️",
+  "index": 24,
+  "is_video": false
+ },
+ {
+  "file": "25_🤩.webp",
+  "emoji": "🤩",
+  "index": 25,
+  "is_video": false
+ },
+ {
+  "file": "26_😕.webp",
+  "emoji": "😕",
+  "index": 26,
+  "is_video": false
+ },
+ {
+  "file": "27_👃.webp",
+  "emoji": "👃",
+  "index": 27,
+  "is_video": false
+ },
+ {
+  "file": "28_😲.webp",
+  "emoji": "😲",
+  "index": 28,
+  "is_video": false
+ },
+ {
+  "file": "29_😮.webp",
+  "emoji": "😮",
+  "index": 29,
+  "is_video": false
+ },
+ {
+  "file": "30_😠.webp",
+  "emoji": "😠",
+  "index": 30,
+  "is_video": false
+ },
+ {
+  "file": "31_🫦.webp",
+  "emoji": "🫦",
+  "index": 31,
+  "is_video": false
+ },
+ {
+  "file": "32_👍.webp",
+  "emoji": "👍",
+  "index": 32,
+  "is_video": false
+ },
+ {
+  "file": "33_☹️.webp",
+  "emoji": "☹️",
+  "index": 33,
+  "is_video": false
+ },
+ {
+  "file": "34_🖕.webp",
+  "emoji": "🖕",
+  "index": 34,
+  "is_video": false
+ },
+ {
+  "file": "35_🕺.webp",
+  "emoji": "🕺",
+  "index": 35,
+  "is_video": false
+ },
+ {
+  "file": "36_🤵♂️.webp",
+  "emoji": "🤵‍♂️",
+  "index": 36,
+  "is_video": false
+ },
+ {
+  "file": "37_👍.webp",
+  "emoji": "👍",
+  "index": 37,
+  "is_video": false
+ },
+ {
+  "file": "38_🍷.webp",
+  "emoji": "🍷",
+  "index": 38,
+  "is_video": false
+ },
+ {
+  "file": "39_😮.webp",
+  "emoji": "😮",
+  "index": 39,
+  "is_video": false
+ },
+ {
+  "file": "40_😃.webp",
+  "emoji": "😃",
+  "index": 40,
+  "is_video": false
+ },
+ {
+  "file": "41_🍄.webp",
+  "emoji": "🍄",
+  "index": 41,
+  "is_video": false
+ },
+ {
+  "file": "42_😐.webp",
+  "emoji": "😐",
+  "index": 42,
+  "is_video": false
+ },
+ {
+  "file": "43_🤪.webp",
+  "emoji": "🤪",
+  "index": 43,
+  "is_video": false
+ },
+ {
+  "file": "44_😳.webp",
+  "emoji": "😳",
+  "index": 44,
+  "is_video": false
+ },
+ {
+  "file": "45_🤣.webp",
+  "emoji": "🤣",
+  "index": 45,
+  "is_video": false
+ },
+ {
+  "file": "46_🖖.webp",
+  "emoji": "🖖",
+  "index": 46,
+  "is_video": false
+ },
+ {
+  "file": "47_😠.webp",
+  "emoji": "😠",
+  "index": 47,
+  "is_video": false
+ },
+ {
+  "file": "48_👓.webp",
+  "emoji": "👓",
+  "index": 48,
+  "is_video": false
+ },
+ {
+  "file": "49_👹.webp",
+  "emoji": "👹",
+  "index": 49,
+  "is_video": false
+ },
+ {
+  "file": "50_🤓.webp",
+  "emoji": "🤓",
+  "index": 50,
+  "is_video": false
+ },
+ {
+  "file": "51_😏.webp",
+  "emoji": "😏",
+  "index": 51,
+  "is_video": false
+ },
+ {
+  "file": "52_🚬.webp",
+  "emoji": "🚬",
+  "index": 52,
+  "is_video": false
+ },
+ {
+  "file": "53_🤤.webp",
+  "emoji": "🤤",
+  "index": 53,
+  "is_video": false
+ },
+ {
+  "file": "54_😖.webp",
+  "emoji": "😖",
+  "index": 54,
+  "is_video": false
+ },
+ {
+  "file": "55_😬.webp",
+  "emoji": "😬",
+  "index": 55,
+  "is_video": false
+ },
+ {
+  "file": "56_🤨.webp",
+  "emoji": "🤨",
+  "index": 56,
+  "is_video": false
+ },
+ {
+  "file": "57_👽.webp",
+  "emoji": "👽",
+  "index": 57,
+  "is_video": false
+ },
+ {
+  "file": "58_🚬.webp",
+  "emoji": "🚬",
+  "index": 58,
+  "is_video": false
+ },
+ {
+  "file": "59_🖕.webp",
+  "emoji": "🖕",
+  "index": 59,
+  "is_video": false
+ },
+ {
+  "file": "60_🥴.webp",
+  "emoji": "🥴",
+  "index": 60,
+  "is_video": false
+ },
+ {
+  "file": "61_☝.webp",
+  "emoji": "☝",
+  "index": 61,
+  "is_video": false
+ },
+ {
+  "file": "62_👃.webp",
+  "emoji": "👃",
+  "index": 62,
+  "is_video": false
+ },
+ {
+  "file": "63_🤫.webp",
+  "emoji": "🤫",
+  "index": 63,
+  "is_video": false
+ },
+ {
+  "file": "64_🥶.webp",
+  "emoji": "🥶",
+  "index": 64,
+  "is_video": false
+ },
+ {
+  "file": "65_🤗.webp",
+  "emoji": "🤗",
+  "index": 65,
+  "is_video": false
+ },
+ {
+  "file": "66_😬.webp",
+  "emoji": "😬",
+  "index": 66,
+  "is_video": false
+ },
+ {
+  "file": "67_😵.webp",
+  "emoji": "😵",
+  "index": 67,
+  "is_video": false
+ },
+ {
+  "file": "68_💵.webp",
+  "emoji": "💵",
+  "index": 68,
+  "is_video": false
+ },
+ {
+  "file": "69_🔞.webp",
+  "emoji": "🔞",
+  "index": 69,
+  "is_video": false
+ },
+ {
+  "file": "70_🚬.webp",
+  "emoji": "🚬",
+  "index": 70,
+  "is_video": false
+ },
+ {
+  "file": "71_😀.webp",
+  "emoji": "😀",
+  "index": 71,
+  "is_video": false
+ },
+ {
+  "file": "72_❤️.webp",
+  "emoji": "❤️",
+  "index": 72,
+  "is_video": false
+ },
+ {
+  "file": "73_😯.webp",
+  "emoji": "😯",
+  "index": 73,
+  "is_video": false
+ },
+ {
+  "file": "74_🎙️.webp",
+  "emoji": "🎙️",
+  "index": 74,
+  "is_video": false
+ },
+ {
+  "file": "75_🐵.webp",
+  "emoji": "🐵",
+  "index": 75,
+  "is_video": false
+ },
+ {
+  "file": "76_🖕.webp",
+  "emoji": "🖕",
+  "index": 76,
+  "is_video": false
+ },
+ {
+  "file": "77_😎.webp",
+  "emoji": "😎",
+  "index": 77,
+  "is_video": false
+ },
+ {
+  "file": "78_🤢.webp",
+  "emoji": "🤢",
+  "index": 78,
+  "is_video": false
+ },
+ {
+  "file": "79_🎮.webp",
+  "emoji": "🎮",
+  "index": 79,
+  "is_video": false
+ },
+ {
+  "file": "80_⚽️.webp",
+  "emoji": "⚽️",
+  "index": 80,
+  "is_video": false
+ },
+ {
+  "file": "81_🤘.webp",
+  "emoji": "🤘",
+  "index": 81,
+  "is_video": false
+ },
+ {
+  "file": "82_🚀.webp",
+  "emoji": "🚀",
+  "index": 82,
+  "is_video": false
+ },
+ {
+  "file": "83_💦.webp",
+  "emoji": "💦",
+  "index": 83,
+  "is_video": false
+ },
+ {
+  "file": "84_🦶.webp",
+  "emoji": "🦶",
+  "index": 84,
+  "is_video": false
+ },
+ {
+  "file": "85_♠️.webp",
+  "emoji": "♠️",
+  "index": 85,
+  "is_video": false
+ },
+ {
+  "file": "86_🎸.webp",
+  "emoji": "🎸",
+  "index": 86,
+  "is_video": false
+ },
+ {
+  "file": "87_💨.webp",
+  "emoji": "💨",
+  "index": 87,
+  "is_video": false
+ },
+ {
+  "file": "88_😬.webp",
+  "emoji": "😬",
+  "index": 88,
+  "is_video": false
+ },
+ {
+  "file": "89_😯.webp",
+  "emoji": "😯",
+  "index": 89,
+  "is_video": false
+ },
+ {
+  "file": "90_👀.webp",
+  "emoji": "👀",
+  "index": 90,
+  "is_video": false
+ },
+ {
+  "file": "91_🎺.webp",
+  "emoji": "🎺",
+  "index": 91,
+  "is_video": false
+ },
+ {
+  "file": "92_🏄♂️.webp",
+  "emoji": "🏄‍♂️",
+  "index": 92,
+  "is_video": false
+ },
+ {
+  "file": "93_👻.webp",
+  "emoji": "👻",
+  "index": 93,
+  "is_video": false
+ },
+ {
+  "file": "94_🏐.webp",
+  "emoji": "🏐",
+  "index": 94,
+  "is_video": false
+ },
+ {
+  "file": "95_⌚️.webp",
+  "emoji": "⌚️",
+  "index": 95,
+  "is_video": false
+ },
+ {
+  "file": "96_😎.webp",
+  "emoji": "😎",
+  "index": 96,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/000_👅.webp",
+  "emoji": "👅",
+  "set": "Vasa96",
+  "index": 0,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/001_🧢.webp",
+  "emoji": "🧢",
+  "set": "Vasa96",
+  "index": 1,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/002_🧔.webp",
+  "emoji": "🧔",
+  "set": "Vasa96",
+  "index": 2,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/003_🪑.webp",
+  "emoji": "🪑",
+  "set": "Vasa96",
+  "index": 3,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/004_🚗.webp",
+  "emoji": "🚗",
+  "set": "Vasa96",
+  "index": 4,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/005_👤.webp",
+  "emoji": "👤",
+  "set": "Vasa96",
+  "index": 5,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/006_🎄.webp",
+  "emoji": "🎄",
+  "set": "Vasa96",
+  "index": 6,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/007_🧍.webp",
+  "emoji": "🧍",
+  "set": "Vasa96",
+  "index": 7,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/008_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 8,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/009_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 9,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/010_✋.webp",
+  "emoji": "✋",
+  "set": "Vasa96",
+  "index": 10,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/011_🖼.webp",
+  "emoji": "🖼",
+  "set": "Vasa96",
+  "index": 11,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/012_🙂.webp",
+  "emoji": "🙂",
+  "set": "Vasa96",
+  "index": 12,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/013_🎸.webp",
+  "emoji": "🎸",
+  "set": "Vasa96",
+  "index": 13,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/014_🍽.webp",
+  "emoji": "🍽",
+  "set": "Vasa96",
+  "index": 14,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/015_✋.webp",
+  "emoji": "✋",
+  "set": "Vasa96",
+  "index": 15,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/016_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 16,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/017_🧔.webp",
+  "emoji": "🧔",
+  "set": "Vasa96",
+  "index": 17,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/018_🎄.webp",
+  "emoji": "🎄",
+  "set": "Vasa96",
+  "index": 18,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/019_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 19,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/020_🤳.webp",
+  "emoji": "🤳",
+  "set": "Vasa96",
+  "index": 20,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/021_✋.webp",
+  "emoji": "✋",
+  "set": "Vasa96",
+  "index": 21,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/022_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 22,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/023_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 23,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/024_🙂.webp",
+  "emoji": "🙂",
+  "set": "Vasa96",
+  "index": 24,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/025_🪑.webp",
+  "emoji": "🪑",
+  "set": "Vasa96",
+  "index": 25,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/026_👖.webp",
+  "emoji": "👖",
+  "set": "Vasa96",
+  "index": 26,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/027_🚶♂.webp",
+  "emoji": "🚶‍♂",
+  "set": "Vasa96",
+  "index": 27,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/028_🐚.webp",
+  "emoji": "🐚",
+  "set": "Vasa96",
+  "index": 28,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/029_🚗.webp",
+  "emoji": "🚗",
+  "set": "Vasa96",
+  "index": 29,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/030_💪.webp",
+  "emoji": "💪",
+  "set": "Vasa96",
+  "index": 30,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/031_🦗.webp",
+  "emoji": "🦗",
+  "set": "Vasa96",
+  "index": 31,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/032_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 32,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/033_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 33,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/034_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 34,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/035_💪.webp",
+  "emoji": "💪",
+  "set": "Vasa96",
+  "index": 35,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/036_👨🎤.webp",
+  "emoji": "👨‍🎤",
+  "set": "Vasa96",
+  "index": 36,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/037_🎄.webp",
+  "emoji": "🎄",
+  "set": "Vasa96",
+  "index": 37,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/038_👄.webp",
+  "emoji": "👄",
+  "set": "Vasa96",
+  "index": 38,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/039_🤲.webp",
+  "emoji": "🤲",
+  "set": "Vasa96",
+  "index": 39,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/040_✋.webp",
+  "emoji": "✋",
+  "set": "Vasa96",
+  "index": 40,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/041_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 41,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/042_🙂.webp",
+  "emoji": "🙂",
+  "set": "Vasa96",
+  "index": 42,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/043_👖.webp",
+  "emoji": "👖",
+  "set": "Vasa96",
+  "index": 43,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/044_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 44,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/045_💁♂.webp",
+  "emoji": "💁‍♂",
+  "set": "Vasa96",
+  "index": 45,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/046_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 46,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/047_🍑.webp",
+  "emoji": "🍑",
+  "set": "Vasa96",
+  "index": 47,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/048_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 48,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/049_💪.webp",
+  "emoji": "💪",
+  "set": "Vasa96",
+  "index": 49,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/050_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 50,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/051_❤.webp",
+  "emoji": "❤",
+  "set": "Vasa96",
+  "index": 51,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/052_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 52,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/053_🪑.webp",
+  "emoji": "🪑",
+  "set": "Vasa96",
+  "index": 53,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/054_🖼.webp",
+  "emoji": "🖼",
+  "set": "Vasa96",
+  "index": 54,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/055_🪑.webp",
+  "emoji": "🪑",
+  "set": "Vasa96",
+  "index": 55,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/056_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 56,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/057_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 57,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/058_🍽.webp",
+  "emoji": "🍽",
+  "set": "Vasa96",
+  "index": 58,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/059_🤲.webp",
+  "emoji": "🤲",
+  "set": "Vasa96",
+  "index": 59,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/060_🚗.webp",
+  "emoji": "🚗",
+  "set": "Vasa96",
+  "index": 60,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/061_👓.webp",
+  "emoji": "👓",
+  "set": "Vasa96",
+  "index": 61,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/062_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 62,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/063_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 63,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/064_😵💫.webp",
+  "emoji": "😵‍💫",
+  "set": "Vasa96",
+  "index": 64,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/065_👍.webp",
+  "emoji": "👍",
+  "set": "Vasa96",
+  "index": 65,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/066_🧸.webp",
+  "emoji": "🧸",
+  "set": "Vasa96",
+  "index": 66,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/067_👍.webp",
+  "emoji": "👍",
+  "set": "Vasa96",
+  "index": 67,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/068_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 68,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/069_🔳.webp",
+  "emoji": "🔳",
+  "set": "Vasa96",
+  "index": 69,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/070_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 70,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/071_🏖.webp",
+  "emoji": "🏖",
+  "set": "Vasa96",
+  "index": 71,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/072_🏖.webp",
+  "emoji": "🏖",
+  "set": "Vasa96",
+  "index": 72,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/073_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 73,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/074_🍲.webp",
+  "emoji": "🍲",
+  "set": "Vasa96",
+  "index": 74,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/075_🧱.webp",
+  "emoji": "🧱",
+  "set": "Vasa96",
+  "index": 75,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/076_🤳.webp",
+  "emoji": "🤳",
+  "set": "Vasa96",
+  "index": 76,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/077_⛰.webp",
+  "emoji": "⛰",
+  "set": "Vasa96",
+  "index": 77,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/078_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 78,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/079_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 79,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/080_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 80,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/081_👤.webp",
+  "emoji": "👤",
+  "set": "Vasa96",
+  "index": 81,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/082_⛑.webp",
+  "emoji": "⛑",
+  "set": "Vasa96",
+  "index": 82,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/083_⛰.webp",
+  "emoji": "⛰",
+  "set": "Vasa96",
+  "index": 83,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/084_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 84,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/085_⛰.webp",
+  "emoji": "⛰",
+  "set": "Vasa96",
+  "index": 85,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/086_🧥.webp",
+  "emoji": "🧥",
+  "set": "Vasa96",
+  "index": 86,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/087_🧥.webp",
+  "emoji": "🧥",
+  "set": "Vasa96",
+  "index": 87,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/088_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 88,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/089_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 89,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/090_⛰.webp",
+  "emoji": "⛰",
+  "set": "Vasa96",
+  "index": 90,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/091_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 91,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/092_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 92,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/093_⛰.webp",
+  "emoji": "⛰",
+  "set": "Vasa96",
+  "index": 93,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/094_🪑.webp",
+  "emoji": "🪑",
+  "set": "Vasa96",
+  "index": 94,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/095_🤳.webp",
+  "emoji": "🤳",
+  "set": "Vasa96",
+  "index": 95,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/096_🌌.webp",
+  "emoji": "🌌",
+  "set": "Vasa96",
+  "index": 96,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/097_⛰.webp",
+  "emoji": "⛰",
+  "set": "Vasa96",
+  "index": 97,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/098_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 98,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/099_😎.webp",
+  "emoji": "😎",
+  "set": "Vasa96",
+  "index": 99,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/100_🚗.webp",
+  "emoji": "🚗",
+  "set": "Vasa96",
+  "index": 100,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/101_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 101,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/102_🚗.webp",
+  "emoji": "🚗",
+  "set": "Vasa96",
+  "index": 102,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/103_👍.webp",
+  "emoji": "👍",
+  "set": "Vasa96",
+  "index": 103,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/104_🎢.webp",
+  "emoji": "🎢",
+  "set": "Vasa96",
+  "index": 104,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/105_👗.webp",
+  "emoji": "👗",
+  "set": "Vasa96",
+  "index": 105,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/106_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 106,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/107_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 107,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/108_🤳.webp",
+  "emoji": "🤳",
+  "set": "Vasa96",
+  "index": 108,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/109_🤳.webp",
+  "emoji": "🤳",
+  "set": "Vasa96",
+  "index": 109,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/110_🤳.webp",
+  "emoji": "🤳",
+  "set": "Vasa96",
+  "index": 110,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/111_👥.webp",
+  "emoji": "👥",
+  "set": "Vasa96",
+  "index": 111,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/112_👥.webp",
+  "emoji": "👥",
+  "set": "Vasa96",
+  "index": 112,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/113_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 113,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/114_🏖.webp",
+  "emoji": "🏖",
+  "set": "Vasa96",
+  "index": 114,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/115_✋.webp",
+  "emoji": "✋",
+  "set": "Vasa96",
+  "index": 115,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/116_💇.webp",
+  "emoji": "💇",
+  "set": "Vasa96",
+  "index": 116,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/117_💪.webp",
+  "emoji": "💪",
+  "set": "Vasa96",
+  "index": 117,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/118_🏖.webp",
+  "emoji": "🏖",
+  "set": "Vasa96",
+  "index": 118,
+  "is_video": false
+ },
+ {
+  "file": "vasa96/119_💪.webp",
+  "emoji": "💪",
+  "set": "Vasa96",
+  "index": 119,
+  "is_video": false
+ }
+]
