@@ -28,7 +28,7 @@ SelectScene.prototype.create = function () {
 
   // сетка 4×2
   this.selIdx = 0;
-  this.cells = [];
+  this.cards = [];
   FIGHTERS.forEach((f, i) => {
     const col = i % 4, row = Math.floor(i / 4);
     const x = W/2 + (col - 1.5) * 78, y = 300 + row * 95;
@@ -37,21 +37,35 @@ SelectScene.prototype.create = function () {
     const head = this.add.image(0, -8, f.key);
     head.setScale(Math.min(52 / head.width, 52 / head.height));
     c.add([bg, head]);
-    c.setSize(70, 85);
-    c.setInteractive(new Phaser.Geom.Rectangle(-35, -42, 70, 85), Phaser.Geom.Rectangle.Contains);
-    c.on('pointerdown', () => this.select(i));
-    this.cards = this.cards || []; this.cards.push(c);
+    this.cards.push(c);
   });
 
   // кнопки боя
-  this.fightBtn = this.add.text(W/2, H - 120, 'В БОЙ!', { fontFamily: 'Arial', fontSize: '28px', color: '#ffffff', backgroundColor: '#cc2222', padding: { x: 40, y: 14 } }).setOrigin(0.5).setDepth(10).setInteractive({ useHandCursor: true });
-  this.fightBtn.on('pointerdown', () => {
-    this.cameras.main.fadeOut(250, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('FightScene', { player: this.selIdx, enemy: this.pickEnemy() }));
-  });
-  this.add.text(W/2, H - 60, '← назад', { fontFamily: 'Arial', fontSize: '15px', color: '#555577' }).setOrigin(0.5).setInteractive({ useHandCursor: true }).on('pointerdown', () => this.scene.start('MenuScene'));
+  this.fightBtn = this.add.text(W/2, H - 120, 'В БОЙ!', { fontFamily: 'Arial', fontSize: '28px', color: '#ffffff', backgroundColor: '#cc2222', padding: { x: 40, y: 14 } }).setOrigin(0.5).setDepth(10);
+  this.add.text(W/2, H - 60, '← назад', { fontFamily: 'Arial', fontSize: '15px', color: '#555577' }).setOrigin(0.5);
 
   this.select(0);
+  // scene-wide tap: сетка + кнопка В БОЙ + назад
+  this.cellZones = FIGHTERS.map((f, i) => {
+    const col = i % 4, row = Math.floor(i / 4);
+    return { x: W/2 + (col - 1.5) * 78, y: 300 + row * 95, w: 78, h: 95, i: i };
+  });
+  this.fightZone = { x: W/2, y: H - 120, w: 180, h: 60 };
+  this.backZone  = { x: W/2, y: H - 60, w: 120, h: 40 };
+  this.input.on('pointerdown', (pointer) => {
+    const wx = pointer.worldX, wy = pointer.worldY;
+    const hit = (z) => Math.abs(wx - z.x) < z.w/2 && Math.abs(wy - z.y) < z.h/2;
+    if (hit(this.fightZone)) {
+      SoundSystem.play('crit2');
+      this.cameras.main.fadeOut(250, 0, 0, 0);
+      this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('FightScene', { player: this.selIdx, enemy: this.pickEnemy() }));
+      return;
+    }
+    if (hit(this.backZone)) { this.scene.start('MenuScene'); return; }
+    for (const z of this.cellZones) {
+      if (hit(z)) { this.select(z.i); return; }
+    }
+  });
 };
 
 SelectScene.prototype.pickEnemy = function () {
@@ -141,10 +155,12 @@ FightScene.prototype.create = function () {
   this.pBody = this.makeFighter(FIGHTERS[this.pIdx].key, 105, H - 305, false);
   this.eBody = this.makeFighter(FIGHTERS[this.eIdx].key, W - 105, H - 305, true);
 
-  // Кнопки атак
+  // Кнопки атак (scene-wide tap handler — надёжно при camera zoom)
+  this.attackButtons = [];
   this.makeAttackBtn(70,  H - 60, '👊 ПАНЧ', 6, () => this.attack('punch'));
   this.makeAttackBtn(190, H - 60, '🦵 ПИНОК', 9, () => this.attack('kick'), 0xff8800);
   this.makeUltBtn(W - 70, H - 60);
+  this.input.on('pointerdown', (pointer) => this.handleTap(pointer.worldX, pointer.worldY));
 
   this.ult = 0;           // 0..100
   this.isBusy = false;
@@ -178,9 +194,36 @@ FightScene.prototype.makeAttackBtn = function (x, y, label, dmg, cb, color) {
   const b = this.add.text(x, y, label, {
     fontFamily: 'Arial', fontSize: '20px', color: '#ffffff', backgroundColor: '#3344aa',
     padding: { x: 14, y: 10 }
-  }).setOrigin(0.5).setDepth(10).setInteractive({ useHandCursor: true });
-  b.on('pointerdown', () => { if (!this.isBusy) cb(); });
+  }).setOrigin(0.5).setDepth(10);
+  b.hitCb = cb;
+  this.actionButtons = this.attackButtons || [];
+  b.getBounds && (b._hb = { x: x, y: y, w: b.width + 20, h: b.height + 20 });
+  this.attackButtons = this.attackButtons || [];
+  this.attackButtons.push(b);
   return b;
+};
+
+// scene-wide tap: переводим pointer в дизайн-координаты и ищем кнопку
+FightScene.prototype.handleTap = function (worldX, worldY) {
+  // worldX/worldY уже в дизайн-координатах (zoom компенсируется камерой)
+  const btns = this.attackButtons || [];
+  for (const b of btns) {
+    if (b._hb && Math.abs(worldX - b._hb.x) < b._hb.w/2 && Math.abs(worldY - b._hb.y) < b._hb.h/2) {
+      if (b === this.ultBtn) { this.ultCheck(); } else { if (!this.isBusy) b.hitCb(); }
+      b.setScale(0.92); this.time.delayedCall(120, () => b.setScale(1));
+      return true;
+    }
+  }
+  return false;
+};
+
+FightScene.prototype.ultCheck = function () {
+  if (this.ult >= 100 && !this.isBusy) {
+    this.ult = 0;
+    this.time.delayedCall(0, () => this.updateUlt());
+    this.doAttack(this.pBody, this.eBody, 30, '🖕 УЛЬТА!');
+    this.cameras.main.shake(300, 0.02);
+  }
 };
 
 FightScene.prototype.makeUltBtn = function (x, y) {
@@ -188,13 +231,8 @@ FightScene.prototype.makeUltBtn = function (x, y) {
     fontFamily: 'Arial', fontSize: '20px', color: '#666', backgroundColor: '#222244',
     padding: { x: 14, y: 10 }
   }).setOrigin(0.5).setDepth(10);
-  this.ultBtn.on('pointerdown', () => {
-    if (this.ult >= 100 && !this.isBusy) {
-      this.ult = 0; this.updateUlt();
-      this.doAttack(this.pBody, this.eBody, 30, '🖕 УЛЬТА!');
-      this.cameras.main.shake(300, 0.02);
-    }
-  });
+  this.attackButtons.push(this.ultBtn);
+  this.ultBtn._hb = { x: x, y: y, w: this.ultBtn.width + 20, h: this.ultBtn.height + 20 };
   this.updateUlt();
 };
 
