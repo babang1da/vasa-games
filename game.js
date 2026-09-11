@@ -1,3 +1,17 @@
+
+// ---------- COVER-скейл: общий хелпер для всех сцен ----------
+function applyCoverScale(scene) {
+  const cw = window.game.scale.canvas.clientWidth || window.innerWidth;
+  const ch = window.game.scale.canvas.clientHeight || window.innerHeight;
+  const aspect = cw / ch;
+  // Портрет/квадрат → COVER (заполнить весь экран). Ландшафт (aspect>0.9) → FIT чтобы не резать контент.
+  const zoom = aspect > 0.9
+    ? Math.min(cw / DESIGN_W, ch / DESIGN_H)                  // FIT
+    : Math.max(cw / DESIGN_W, ch / DESIGN_H);                 // COVER
+  scene.cameras.main.setZoom(zoom);
+  scene.cameras.main.centerOn(DESIGN_W / 2, DESIGN_H / 2);
+  scene.cameras.main.setBackgroundColor(scene.scene.key === 'BootScene' ? '#ffffff' : '#0a0a1a');
+}
 // VASA Games — «Тык в щёку» (Phaser 4.2, Approach D ретина)
 /* global Phaser, STICKERS */
 window.__dpr = Math.min(window.devicePixelRatio || 1, 3);
@@ -7,7 +21,7 @@ const config = {
   type: Phaser.WEBGL,
   width: DESIGN_W * window.__dpr,
   height: DESIGN_H * window.__dpr,
-  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+  scale: { mode: Phaser.Scale.RESIZE, width: window.innerWidth, height: window.innerHeight, autoRound: true },
   render: { antialias: true },
   backgroundColor: '#0a0a1a',
   scene: [BootScene, MenuScene, GameScene, SelectScene, FightScene]
@@ -30,8 +44,7 @@ MenuScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  this.cameras.main.setZoom(dpr);
-  this.cameras.main.centerOn(W / 2, H / 2);
+  applyCoverScale(this);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
@@ -100,14 +113,21 @@ BootScene.prototype.preload = function () {
   this.load.image('logo', 'assets/logo.webp');
   FIGHTERS.forEach(f => this.load.image(f.key, 'assets/fighters/' + f.file));
 
-  // Прогресс-бар
-  const w = 390 * (window.__dpr || 1), h = 844 * (window.__dpr || 1);
+  // Экран загрузки: белый фон, лого сверху-в-центре, тонкий лоадер внизу
+  const dpr = window.__dpr || 1;
+  const w = 390 * dpr, h = 844 * dpr;
+  this.cameras.main.setBackgroundColor('#ffffff');
+
+  // лого (сразу, маленькое)
+  const logo = this.add.image(w / 2, h / 2 - 40 * dpr, 'logo');
+  logo.setScale(0.42 * dpr);
+
+  // тонкий лоадер внизу
+  this.barBg = this.add.rectangle(w / 2, h - 70 * dpr, 180 * dpr, 4 * dpr, 0xe0e0e8).setOrigin(0.5);
+  this.bar = this.add.rectangle(w / 2 - 90 * dpr, h - 70 * dpr, 0, 4 * dpr, 0x2244cc).setOrigin(0, 0.5);
+
   this.load.on('progress', v => {
-    this.children.removeAll(true);
-    const t = this.add.text(w / 2, h / 2 - 40, 'VASA Games', { fontFamily: 'Arial', fontSize: (48 * window.__dpr) + 'px', color: '#00e5ff', fontStyle: 'bold' }).setOrigin(0.5);
-    const sub = this.add.text(w / 2, h / 2 + 10, 'Загрузка стикеров… ' + Math.round(v * 100) + '%', { fontFamily: 'Arial', fontSize: (20 * window.__dpr) + 'px', color: '#8888aa' }).setOrigin(0.5);
-    const barBg = this.add.rectangle(w / 2, h / 2 + 60, 260 * window.__dpr, 12 * window.__dpr, 0x222244).setOrigin(0.5);
-    const bar = this.add.rectangle(w / 2, h / 2 + 60, Math.max(2, 260 * window.__dpr * v), 12 * window.__dpr, 0x00e5ff).setOrigin(0.5);
+    this.bar.width = Math.max(2, 180 * dpr * v);
   });
   STICKERS.forEach(s => this.load.image(s.key, 'assets/' + s.key));
 };
@@ -166,8 +186,7 @@ GameScene.prototype.create = function () {
   const W = DESIGN_W, H = DESIGN_H; // design-координаты
 
   // camera zoom (Approach D)
-  this.cameras.main.setZoom(dpr);
-  this.cameras.main.centerOn(W / 2, H / 2);
+  applyCoverScale(this);
 
   // text monkey-patch
   const origAddText = this.add.text.bind(this.add);

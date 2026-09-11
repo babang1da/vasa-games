@@ -1,4 +1,16 @@
 
+// ---------- COVER-скейл: общий хелпер для всех сцен ----------
+function applyCoverScale(scene) {
+  const dpr = window.__dpr || 1;
+  const vw = window.game.scale.canvasBounds.width || window.innerWidth;
+  const vh = window.game.scale.canvasBounds.height || window.innerHeight;
+  // canvas физически = viewport*dpr (RESIZE mode). Дизайн 390x844*dpr вписываем с COVER:
+  const zoom = Math.max(vw / (DESIGN_W * dpr), vh / (DESIGN_H * dpr));
+  scene.cameras.main.setZoom(zoom);
+  scene.cameras.main.centerOn(DESIGN_W / 2, DESIGN_H / 2);
+}
+
+
 // ---------- Выбор бойца ----------
 function SelectScene() { Phaser.Scene.call(this, { key: 'SelectScene' }); }
 SelectScene.prototype = Object.create(Phaser.Scene.prototype);
@@ -8,8 +20,7 @@ SelectScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  this.cameras.main.setZoom(dpr);
-  this.cameras.main.centerOn(W / 2, H / 2);
+  applyCoverScale(this);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
@@ -127,8 +138,7 @@ FightScene.prototype.create = function () {
   const dpr = window.__dpr || 1;
   this.dpr = dpr;
   const W = DESIGN_W, H = DESIGN_H;
-  this.cameras.main.setZoom(dpr);
-  this.cameras.main.centerOn(W / 2, H / 2);
+  applyCoverScale(this);
   const origAddText = this.add.text.bind(this.add);
   this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
 
