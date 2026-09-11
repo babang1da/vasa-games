@@ -10,11 +10,75 @@ const config = {
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   render: { antialias: true },
   backgroundColor: '#0a0a1a',
-  scene: [BootScene, GameScene]
+  scene: [BootScene, MenuScene, GameScene]
 };
 
 const game = new Phaser.Game(config);
 window.game = game;
+
+// ---------- Меню выбора игр (стиль Dendy/Sega) ----------
+function MenuScene() { Phaser.Scene.call(this, { key: 'MenuScene' }); }
+MenuScene.prototype = Object.create(Phaser.Scene.prototype);
+MenuScene.prototype.constructor = MenuScene;
+
+const GAMES = [
+  { id: 'poke', title: 'ТЫК В ЩЁКУ', desc: 'Тапай по щеке!', playable: true }
+];
+
+MenuScene.prototype.create = function () {
+  const dpr = window.__dpr || 1;
+  this.dpr = dpr;
+  const W = DESIGN_W, H = DESIGN_H;
+  this.cameras.main.setZoom(dpr);
+  this.cameras.main.centerOn(W / 2, H / 2);
+  const origAddText = this.add.text.bind(this.add);
+  this.add.text = (x, y, text, style) => { style = style || {}; style.resolution = dpr; return origAddText(x, y, text, style); };
+
+  this.add.rectangle(W / 2, H / 2, W + 20, H + 20, 0x0a0a1a);
+
+  this.add.text(W / 2, 70, 'VASA GAMES', { fontFamily: 'Arial', fontSize: '38px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
+  this.add.text(W / 2, 108, 'ВЫБЕРИ ИГРУ', { fontFamily: 'Arial', fontSize: '18px', color: '#00e5ff' }).setOrigin(0.5);
+
+  // Карусель карточек
+  this.selIndex = 0;
+  this.cards = [];
+  const cardW = 250, cardH = 150, gapY = 170;
+  GAMES.forEach((g, i) => {
+    const y = 210 + i * gapY;
+    const card = this.add.container(W / 2, y);
+    const bg = this.add.rectangle(0, 0, cardW, cardH, 0x1a1a3a).setStrokeStyle(3, 0x00e5ff);
+    const t1 = this.add.text(0, -18, g.title, { fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
+    const t2 = this.add.text(0, 22, g.desc, { fontFamily: 'Arial', fontSize: '16px', color: '#8888aa' }).setOrigin(0.5);
+    const t3 = this.add.text(0, 55, g.playable ? '▶ ИГРАТЬ' : '🔒 СКОРО', { fontFamily: 'Arial', fontSize: '15px', color: g.playable ? '#00e5ff' : '#555577' }).setOrigin(0.5);
+    card.add([bg, t1, t2, t3]);
+    card.setSize(cardW, cardH);
+    card.setInteractive(new Phaser.Geom.Rectangle(-cardW/2, -cardH/2, cardW, cardH), Phaser.Geom.Rectangle.Contains);
+    card.on('pointerdown', () => this.select(i, true));
+    this.cards.push(card);
+  });
+
+  this.add.text(W / 2, H - 50, '© VASA GAMES 2026', { fontFamily: 'Arial', fontSize: '13px', color: '#333355' }).setOrigin(0.5);
+
+  this.select(0, false);
+};
+
+MenuScene.prototype.select = function (i, go) {
+  const g = GAMES[i];
+  if (!g) return;
+  this.selIndex = i;
+  // подсветка выбранной
+  this.cards.forEach((c, j) => {
+    const bg = c.list[0];
+    bg.setStrokeStyle(j === i ? 5 : 3, j === i ? 0xffd93d : 0x00e5ff);
+    c.setScale(j === i ? 1.06 : 1);
+  });
+  if (go) {
+    this.cameras.main.fadeOut(250, 0, 0, 0);
+    this.cameras.main.once('camerafadeoutcomplete', () => {
+      if (g.id === 'poke') this.scene.start('GameScene');
+    });
+  }
+};
 
 // ---------- Boot: загрузка стикеров ----------
 function BootScene() { Phaser.Scene.call(this, { key: 'BootScene' }); }
@@ -53,7 +117,7 @@ BootScene.prototype.create = function () {
     onComplete: () => {
       this.time.delayedCall(700, () => {
         this.cameras.main.fadeOut(400, 0, 0, 0);
-        this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('GameScene'));
+        this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('MenuScene'));
       });
     }
   });
