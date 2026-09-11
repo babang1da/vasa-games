@@ -10,7 +10,7 @@ const config = {
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   render: { antialias: true },
   backgroundColor: '#0a0a1a',
-  scene: [BootScene, MenuScene, GameScene, FightScene]
+  scene: [BootScene, MenuScene, GameScene, SelectScene, FightScene]
 };
 
 const game = new Phaser.Game(config);
@@ -77,7 +77,7 @@ MenuScene.prototype.select = function (i, go) {
     this.cameras.main.fadeOut(250, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => {
       if (g.id === 'poke') this.scene.start('GameScene');
-      if (g.id === 'fight') this.scene.start('FightScene');
+      if (g.id === 'fight') this.scene.start('SelectScene');
     });
   }
 };
