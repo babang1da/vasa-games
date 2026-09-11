@@ -35,7 +35,7 @@ BootScene.prototype.preload = function () {
     const barBg = this.add.rectangle(w / 2, h / 2 + 60, 260 * window.__dpr, 12 * window.__dpr, 0x222244).setOrigin(0.5);
     const bar = this.add.rectangle(w / 2, h / 2 + 60, Math.max(2, 260 * window.__dpr * v), 12 * window.__dpr, 0x00e5ff).setOrigin(0.5);
   });
-  STICKERS.forEach(s => this.load.image(s.key, 'assets/stickers/' + s.key));
+  STICKERS.forEach(s => this.load.image(s.key, 'assets/' + s.key));
 };
 
 BootScene.prototype.create = function () {
