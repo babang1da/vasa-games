@@ -52,15 +52,22 @@ MenuScene.prototype.create = function () {
     const t2 = this.add.text(0, 22, g.desc, { fontFamily: 'Arial', fontSize: '16px', color: '#8888aa' }).setOrigin(0.5);
     const t3 = this.add.text(0, 55, g.playable ? '▶ ИГРАТЬ' : '🔒 СКОРО', { fontFamily: 'Arial', fontSize: '15px', color: g.playable ? '#00e5ff' : '#555577' }).setOrigin(0.5);
     card.add([bg, t1, t2, t3]);
-    card.setSize(cardW, cardH);
-    card.setInteractive(new Phaser.Geom.Rectangle(-cardW/2, -cardH/2, cardW, cardH), Phaser.Geom.Rectangle.Contains);
-    card.on('pointerdown', () => this.select(i, true));
     this.cards.push(card);
   });
 
   this.add.text(W / 2, H - 50, '© VASA GAMES 2026', { fontFamily: 'Arial', fontSize: '13px', color: '#333355' }).setOrigin(0.5);
 
   this.select(0, false);
+  // scene-wide tap по карточкам (надёжно при zoom=dpr)
+  this.cardZones = GAMES.map((g, i) => ({ x: W/2, y: 210 + i * gapY, w: cardW, h: cardH, i: i }));
+  this.input.on('pointerdown', (pointer) => {
+    for (const z of this.cardZones) {
+      if (Math.abs(pointer.worldX - z.x) < z.w/2 && Math.abs(pointer.worldY - z.y) < z.h/2) {
+        this.select(z === this.cardZones[0] ? 0 : this.cardZones.indexOf(z), true);
+        return;
+      }
+    }
+  });
 };
 
 MenuScene.prototype.select = function (i, go) {
@@ -106,24 +113,37 @@ BootScene.prototype.preload = function () {
 };
 
 BootScene.prototype.create = function () {
-  // Стартовый экран в стиле EA Games: логотип нарастает со звуком-ударом
+  // Заставка EA-style: лого вырастает со вспышкой + бас-удар, «PRESS ANY» → в меню
   const dpr = window.__dpr || 1;
   const w = 390 * dpr, h = 844 * dpr;
-  this.cameras.main.setBackgroundColor('#0a0a1a');
+  this.cameras.main.setBackgroundColor('#ffffff');
   const logo = this.add.image(w / 2, h / 2, 'logo');
-  logo.setScale(0.4 * dpr);
+  logo.setScale(0.25 * dpr);
   logo.setAlpha(0);
+
+  const flash = this.add.rectangle(w/2, h/2, w*2, h*2, 0x000000, 1).setDepth(50);
+  this.tweens.add({ targets: flash, alpha: 0, duration: 500, onComplete: () => flash.destroy() });
+
   this.tweens.add({
     targets: logo,
     alpha: 1, scale: 0.55 * dpr,
-    duration: 900, ease: 'Cubic.easeOut',
+    duration: 700, ease: 'Back.easeOut',
     onComplete: () => {
-      this.time.delayedCall(700, () => {
-        this.cameras.main.fadeOut(400, 0, 0, 0);
-        this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('MenuScene'));
-      });
+      // покачивание живого лого
+      this.tweens.add({ targets: logo, scale: 0.57 * dpr, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+      const tap = this.add.text(w/2, h - 90*dpr, '— нажми чтобы продолжить —', { fontFamily: 'Arial', fontSize: (14*dpr) + 'px', color: '#4455aa' }).setOrigin(0.5);
+      this.tweens.add({ targets: tap, alpha: 0.25, duration: 700, yoyo: true, repeat: -1 });
+      // автопереход через 4с ИЛИ тап
+      this.autoTimer = this.time.delayedCall(4000, () => this.toMenu());
+      this.input.once('pointerdown', () => this.toMenu());
     }
   });
+};
+
+BootScene.prototype.toMenu = function () {
+  this.tweens.killAll();
+  this.cameras.main.fadeOut(350, 255, 255, 255);
+  this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('MenuScene'));
 };
 
 // ---------- Game ----------
